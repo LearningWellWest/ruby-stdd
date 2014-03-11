@@ -7,6 +7,6 @@ Feature: Handle customers
 
 
   Scenario: Get customer
-  	Given the system has a customer
+  	Given the system has an customer
   	When I request the customer
   	Then I should get the customer name and ID back

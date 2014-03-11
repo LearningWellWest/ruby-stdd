@@ -7,8 +7,8 @@ When(/^I create an customer$/) do
 	end
 end
 
-Given(/^the system has a customer$/) do
-	create_customer_if_not_exists
+Given(/^the system has an customer$/) do
+  create_customer_if_not_exists
 end
 
 
@@ -29,14 +29,16 @@ end
 
 
 def create_customer_if_not_exists
-	# Kontrollera om användaren finns
+	# Kontrollera om kunden finns
 	valid, response = @stdd_api.get_customer @customer_name
 
-	# Om användaren finns
+	# Om kunden finns
 	if(valid && response)
+		puts "Customer already exists"
 		@customer = response
 	else
-		# Skapa en användare
+		puts "Customer did not exist, creating new.."
+		# Skapa en kund
 		valid, response = @stdd_api.create_customer @customer_name
 		# Om vi får en giltig respons
 		if(valid)

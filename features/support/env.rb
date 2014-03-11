@@ -6,7 +6,16 @@ Before do
 random_string = (0...8).map { (65 + rand(26)).chr }.join
 @customer_name = "Learningwell" + "_#{random_string}"
 random_string = (0...8).map { (65 + rand(26)).chr }.join
-@project_name = "Project_+ "+"_#{random_string}"
+@project_name = "Project"+"_#{random_string}"
+
+random_string = (0...8).map { (65 + rand(26)).chr }.join
+@run_name = "Run"+"_#{random_string}"
+@source = "http://www.google.se"
+@revision = "1.2"
+
+random_string = (0...8).map { (65 + rand(26)).chr }.join
+@module_name = "Project"+"_#{random_string}"
+@module_type = ["cucumber","load"].sample
 end
 
 After do |scenario|
