@@ -51,3 +51,30 @@ class Run
     }.to_json
   end
 end
+
+class Module
+  def initialize(run_id,name,type,start_time)
+    @run_id = run_id
+    @name = name
+    @type = type
+    @start_time = start_time
+
+  end
+  attr_accessor :name,:id,:run_id,:type,:start_time,:stop_time
+  def to_s
+    "name: #{@name}\n"+
+    "id: #{@id}\n"+
+    "run-id: #{@run_id}\n"+
+    "type: #{@type}\n"+
+    "start-time: #{@start_time}\n"
+  end
+  def to_json
+    {
+      'name' => @name,
+      'run_id' => @run_id,
+      'type' => @type,
+      'start_time'=> @start_time,
+      'stop_time'=>@stop_time
+    }.to_json
+  end
+end

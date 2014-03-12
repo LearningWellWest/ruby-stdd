@@ -20,30 +20,29 @@ class STDDAPI
     valid, response = http_post path, customer.to_json
     
     if(valid)
+      customer = Customer.new(response["name"])
       customer.id = response["_id"]
+      return true, customer
     else
       return false, response
     end
-
-    return true, customer
 
   end
 
   def get_customer(customer_name)
-    customer = Customer.new(customer_name)
-
     path = "/api/get_customer"
-    path = add_params_to_path(path,{:name => customer.name})
+    path = add_params_to_path(path,{:name => customer_name})
 
     valid, response = http_get path
+
     
     if(valid)
-      customer.id = response["_id"]
+      customer = Customer.new(response["name"]) if response["name"]
+      customer.id = response["_id"] if response["_id"]
+      return true, customer
     else
       return false, response
     end
-
-    return true, customer
 
   end
 
@@ -53,29 +52,28 @@ class STDDAPI
     valid, response = http_post path, project.to_json
     
     if(valid)
+      project = Project.new(response["customerID"],response["name"])
       project.id = response["_id"]
+      return true, project
     else
       return false, response
     end
-
-    return true, project
   end
 
   def get_project(customer_id, project_name)
-    project = Project.new(customer_id,project_name)
 
     path = "/api/get_project"
-    path = add_params_to_path(path,{:customer_id => project.customer_id, :name => project.name})
+    path = add_params_to_path(path,{:customer_id => customer_id, :name => project_name})
 
     valid, response = http_get path
     
     if(valid)
+      project = Project.new(response["customerID"],response["name"])
       project.id = response["_id"]
+      return true, project
     else
       return false, response
     end
-
-    return true, project
 
   end
 
@@ -85,36 +83,70 @@ class STDDAPI
     valid, response = http_post path, run.to_json
     
     if(valid)
+      run = Run.new(response["projectID"],response["name"],response["source"],response["revision"])
       run.id = response["_id"]
+      return true, run
     else
       return false, response
     end
 
-    return true, run
+    
   end
   
   def get_run(project_id, name)
-    run = Run.new(project_id,name)
-
     path = "/api/get_run"
-    path = add_params_to_path(path,{:project_id => run.project_id, :name => run.name})
+    path = add_params_to_path(path,{:project_id => project_id, :name => name})
 
     valid, response = http_get path
     
     if(valid)
+      run = Run.new(project_id,name)
       run.id = response["_id"]
       run.source = response["source"]
       if(response["revision"])
         run.revision = response["revision"]
       end
+      return true, run
     else
       return false, response
     end
 
-    return true, run
-
   end
 
+  def create_module run_id, name, type, start
+    modl = Module.new(run_id,name,type,start)
+    path = "/api/create_module"
+    valid, response = http_post path, modl.to_json
+    
+    if(valid)
+      modl = Module.new(response["runID"],response["name"],response["type"],response["startTime"])
+      modl.id = response["_id"]
+      stop_time = response["stopTime"]
+      if(stop_time)
+        modl.stop_time = stop_time
+      end
+      return true, modl
+    else
+      return false, response
+    end
+  end
+
+  def update_module_stopTime(module_id,stop_time)
+    path = "/api/update_module_stoptime"
+    valid, response = http_post path, {"module_id" => module_id, "stop_time" => stop_time}.to_json
+    
+    if(valid)
+      modl = Module.new(response["runID"],response["name"],response["type"],response["startTime"])
+      modl.id = response["_id"]
+      stop_time = response["stopTime"]
+      if(stop_time)
+        modl.stop_time = stop_time
+      end
+      return true, modl
+    else
+      return false, response
+    end
+  end
 
   def http_post path,body
     begin
