@@ -113,13 +113,13 @@ class STDDAPI
 
   end
 
-  def create_module run_id, name, type, start
-    modl = Module.new(run_id,name,type,start)
+  def create_module run_id, name, kind, start
+    modl = Module.new(run_id,name,kind,start)
     path = "/api/create_module"
     valid, response = http_post path, modl.to_json
     
     if(valid)
-      modl = Module.new(response["runID"],response["name"],response["type"],response["startTime"])
+      modl = Module.new(response["runID"],response["name"],response["kind"],response["startTime"])
       modl.id = response["_id"]
       stop_time = response["stopTime"]
       if(stop_time)
@@ -136,7 +136,7 @@ class STDDAPI
     valid, response = http_post path, {"module_id" => module_id, "stop_time" => stop_time}.to_json
     
     if(valid)
-      modl = Module.new(response["runID"],response["name"],response["type"],response["startTime"])
+      modl = Module.new(response["runID"],response["name"],response["kind"],response["startTime"])
       modl.id = response["_id"]
       stop_time = response["stopTime"]
       if(stop_time)
@@ -147,6 +147,49 @@ class STDDAPI
       return false, response
     end
   end
+
+  def create_feature feature
+    path = "/api/create_feature"
+    valid, response = http_post path, feature.to_json
+    
+    if(valid)
+      id = response["_id"]
+      if(id)
+        return true, id
+      end
+    else
+      return false, response
+    end
+  end 
+
+  def create_scenario scenario
+    path = "/api/create_scenario"
+    valid, response = http_post path, scenario.to_json
+    
+    if(valid)
+      id = response["_id"]
+      if(id)
+        return true, id
+      end
+    else
+      return false, response
+    end
+  end 
+
+  def add_step_to_scenario step
+    path = "/api/add_step_to_scenario"
+    valid, response = http_post path, step.to_json
+    
+    if(valid)
+      success = response["success"]
+      if(success)
+        return true, success
+      end
+    else
+      return false, response
+    end
+  end 
+
 
   def http_post path,body
     begin

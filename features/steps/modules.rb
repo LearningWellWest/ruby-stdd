@@ -1,5 +1,5 @@
 When(/^I create a module for the run$/) do
-  valid,response = @stdd_api.create_module(@run.id,@module_name,@module_type,@module_start)
+  valid,response = @stdd_api.create_module(@run.id,@module_name,@module_kind,@module_start)
   if(valid)
   	@module = response
   else
@@ -7,11 +7,21 @@ When(/^I create a module for the run$/) do
   end
 end
 
-Then(/^I should get the module name, ID, type, start\-time and run\-ID back$/) do
+When(/^I create a cucumber module for the run$/) do
+    valid,response = @stdd_api.create_module(@run.id,@module_name,'cucumber',@module_start)
+  if(valid)
+  	@module = response
+  else
+  	fail(response)
+  end
+end
+
+
+Then(/^I should get the module name, ID, kind, start\-time and run\-ID back$/) do
 	puts "Got: #{@module.to_s}"
 	fail("no module name") unless @module.name
 	fail("no module id") unless @module.id
-	fail("no module type") unless @module.type
+	fail("no module kind") unless @module.kind
 	fail("no module start-time") unless @module.start_time
 	fail("no module run-id") unless @module.run_id
 
@@ -29,11 +39,11 @@ When(/^I update the module stop\-time$/) do
   end
 end
 
-Then(/^I should get the module name, ID, type, start\-time, stop\-time and run\-ID back$/) do
+Then(/^I should get the module name, ID, kind, start\-time, stop\-time and run\-ID back$/) do
 	puts "Got: #{@module.to_s}"
 	fail("no module name") unless @module.name
 	fail("no module id") unless @module.id
-	fail("no module type") unless @module.type
+	fail("no module kind") unless @module.kind
 	fail("no module start-time") unless @module.start_time
 	fail("no module stop-time") unless @module.stop_time
 	fail("no module run-id") unless @module.run_id

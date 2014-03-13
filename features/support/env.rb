@@ -15,8 +15,9 @@ random_string = (0...8).map { (65 + rand(26)).chr }.join
 
 random_string = (0...8).map { (65 + rand(26)).chr }.join
 @module_name = "Module"+"_#{random_string}"
-@module_type = ["cucumber","load"].sample
+@module_kind = ["cucumber","load"].sample
 @module_start = Time.now
+
 end
 
 After do |scenario|
