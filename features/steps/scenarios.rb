@@ -28,7 +28,7 @@ Then(/^I should get the scenario ids back each creation$/) do
 end
 
 def get_random_scenario feature_id
-	scenario = Scenario.new(feature_id, get_random_scenario_name,'scenario','Scenario')
+	scenario = STDDAPI::Objects::Scenario.new(feature_id, get_random_scenario_name,'scenario','Scenario')
 	scenario.tags=["@hurr","@durr","@scenariotag"]
 	return scenario
 end

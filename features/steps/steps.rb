@@ -6,8 +6,8 @@ When(/^I add (\d+) steps to each scenario$/) do |arg1|
 
 		k =0
 		until k >= @scenario_count  do
-			scenario = get_random_step(scenario_id)
-			valid,response = @stdd_api.add_step_to_scenario(scenario)
+			step = get_random_step(scenario_id)
+			valid,response = @stdd_api.add_step_to_scenario(step)
 			if(valid)
 			  @step_responses << response
 			else
@@ -31,7 +31,7 @@ end
 
 def get_random_step scenario_id
 	keyword = ["Givet","När","Och","Så"].sample
-	step = Step.new(scenario_id,keyword, get_random_step_name)
+	step = STDDAPI::Objects::Step.new(scenario_id,keyword, get_random_step_name)
 	step.status=['passed','failed','skipped','pending'].sample
 	if(step.status == 'failed')
 		step.error_message = "HURR DURR EXCEPTION:StandardError hurr:3:4 durr"

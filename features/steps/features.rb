@@ -29,7 +29,7 @@ end
 
 
 def get_random_feature module_id
-	feature = Feature.new(module_id,get_random_feature_name,Time.now)
+	feature = STDDAPI::Objects::Feature.new(module_id,get_random_feature_name,Time.now)
 	feature.description = "This is the feature description"
 	feature.tags = ["@hurr","@durr","@thisIsATag"]
 	feature.file = "files/file.feature"
