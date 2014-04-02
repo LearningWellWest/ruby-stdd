@@ -1,5 +1,6 @@
 require 'stdd_api'
 require "base64"
+require 'stddtool'
 
 Before do
 @stdd_url = "http://localhost:3000"
