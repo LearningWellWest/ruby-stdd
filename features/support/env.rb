@@ -3,7 +3,7 @@ require "base64"
 require 'stddtool'
 
 Before do
-@stdd_url = "http://localhost:3000"
+@stdd_url = "http://stdd-test.lwst.se"
 @stdd_api = STDDAPI::Client.new(@stdd_url,nil)
 random_string = (0...8).map { (65 + rand(26)).chr }.join
 @customer_name = "Learningwell" + "_#{random_string}"
