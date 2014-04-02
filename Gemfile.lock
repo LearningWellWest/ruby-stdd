@@ -14,7 +14,7 @@ GEM
     multi_json (1.8.2)
     multi_test (0.0.2)
     stdd_api (0.3.0.1)
-    stddtool (0.5.0.3)
+    stddtool (0.5.1.1)
       stdd_api (~> 0.3.0.1)
 
 PLATFORMS
